@@ -1,6 +1,6 @@
 pipeline {
     agent any 
-
+}
     stages{
         stage('Stage 1: Build')
             steps{
@@ -37,6 +37,4 @@ pipeline {
                 echo 'Final deployment to live environment'
                 echo 'Tools used: Azure DevOps Pipelines,'
             }    
-        
-    }
 }
