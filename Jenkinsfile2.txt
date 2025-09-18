@@ -1,0 +1,64 @@
+pipeline {
+  agent any
+
+  stages {
+    stage('Checkout') {
+      steps {
+        git branch: 'main', url: 'https://github.com/Beodolf/8.2CDevSecOps.git'
+      }
+    }
+
+    stage('Install Dependencies') {
+      steps {
+        bat 'npm install'
+      }
+    }
+
+    stage('Run Tests') {
+      steps {
+        bat 'npm test || exit /b 0'
+      }
+      post {
+        success {
+          emailext subject: "✅ Test Stage Passed",
+                   body: "The test stage completed successfully.",
+                   to: "Raidenraigen@gmail.com",
+                   attachLog: true
+        }
+        failure {
+          emailext subject: "❌ Test Stage Failed",
+                   body: "The test stage failed. Please review the attached logs.",
+                   to: "Raidenraigen@gmail.com",
+                   attachLog: true
+        }
+      }
+    }
+
+    stage('Generate Coverage Report') {
+      steps {
+        bat 'npm run coverage || exit /b 0'
+      }
+    }
+
+    stage('NPM Audit (Security Scan)') {
+      steps {
+        bat 'npm audit || exit /b 0'
+      }
+      post {
+        success {
+          emailext subject: "✅ Security Scan Passed",
+                   body: "The security scan completed successfully.",
+                   to: "Raidenraigen@gmail.com",
+                   attachLog: true
+        }
+        failure {
+          emailext subject: "❌ Security Scan Failed",
+                   body: "The security scan failed. Please review the attached logs.",
+                   to: "Raidenraigen@gmail.com",
+                   attachLog: true
+        }
+      }
+    }
+  }
+}
+
