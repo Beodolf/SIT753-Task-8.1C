@@ -43,7 +43,6 @@ pipeline {
                 echo 'Tools used: Cypress, Robot Framework'
             }
         }
-
         stage('Stage 7: Deploy to Production') {
             steps {
                 echo 'Final deployment to live environment'
