@@ -50,6 +50,5 @@ pipeline {
                 echo 'Tools used: Azure DevOps Pipelines'
             }
         }
-        
     }
 }
